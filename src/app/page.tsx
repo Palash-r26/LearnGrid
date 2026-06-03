@@ -1,65 +1,63 @@
-import Image from "next/image";
+import { HeroTile } from "@/components/dashboard/HeroTile";
+import { ActivityTile } from "@/components/dashboard/ActivityTile";
+import { CourseTile } from "@/components/dashboard/CourseTile";
+import { BentoGrid, BentoTileWrapper } from "@/components/dashboard/BentoGrid";
+import { createClient } from "@/lib/supabase";
+import { Course } from "@/lib/types";
 
-export default function Home() {
+// Fallback mock data in case Supabase connection fails
+const fallbackCourses: Course[] = [
+  { id: "1", title: "Advanced React Patterns", progress: 75, icon_name: "Code", created_at: new Date().toISOString() },
+  { id: "2", title: "UI/UX Foundations", progress: 40, icon_name: "PenTool", created_at: new Date().toISOString() },
+  { id: "3", title: "Database Architecture", progress: 15, icon_name: "Database", created_at: new Date().toISOString() },
+];
+
+export default async function Dashboard() {
+  let courses: Course[] = [];
+  
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('courses')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error("Supabase Error:", error.message);
+      courses = fallbackCourses;
+    } else {
+      courses = data as Course[];
+    }
+  } catch (error) {
+    console.error("Supabase Connection Error:", error);
+    courses = fallbackCourses;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="flex flex-col gap-6 lg:gap-8 pb-8">
+      <header>
+        <h1 className="text-2xl font-bold text-white tracking-tight hidden md:block">Overview</h1>
+      </header>
+
+      <BentoGrid>
+        <BentoTileWrapper className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1">
+          <HeroTile />
+        </BentoTileWrapper>
+        
+        <BentoTileWrapper className="col-span-1 md:col-span-2 lg:col-span-1 row-span-1">
+          <ActivityTile />
+        </BentoTileWrapper>
+
+        {courses.map((course) => (
+          <BentoTileWrapper key={course.id} className="col-span-1 row-span-1">
+            <CourseTile
+              title={course.title}
+              progress={course.progress}
+              iconName={course.icon_name}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          </BentoTileWrapper>
+        ))}
+      </BentoGrid>
     </div>
   );
 }
