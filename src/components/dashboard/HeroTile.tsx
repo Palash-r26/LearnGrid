@@ -1,9 +1,24 @@
+"use client";
+
 import { Flame } from "lucide-react";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect } from "react";
 
 export function HeroTile() {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
+
+  useEffect(() => {
+    const animation = animate(count, 12, { duration: 2, type: "spring", stiffness: 50, damping: 20 });
+    return animation.stop;
+  }, [count]);
+
   return (
     <article className="h-full bg-card border border-white/5 rounded-3xl p-6 lg:p-8 flex flex-col justify-between overflow-hidden relative group">
-      <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-primary/20 blur-3xl rounded-full" />
+      {/* Noise Texture Overlay */}
+      <div className="absolute inset-0 bg-noise opacity-[0.03] pointer-events-none mix-blend-overlay z-0" />
+      
+      <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-primary/20 blur-3xl rounded-full z-0" />
       
       <div className="relative z-10 space-y-2">
         <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
@@ -19,10 +34,13 @@ export function HeroTile() {
           <Flame className="w-6 h-6" />
         </div>
         <div>
-          <p className="text-sm font-medium text-white">12 Day Streak!</p>
+          <p className="text-sm font-medium text-white flex items-center gap-1">
+            <motion.span>{rounded}</motion.span> Day Streak!
+          </p>
           <p className="text-xs text-zinc-400">Personal best is 14 days</p>
         </div>
       </div>
     </article>
   );
 }
+

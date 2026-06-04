@@ -34,8 +34,9 @@ export function CourseTile({ title, progress, iconName }: CourseTileProps) {
       className="h-full bg-card border border-white/5 hover:border-primary/50 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.15)] transition-colors duration-300 rounded-3xl p-6 flex flex-col relative overflow-hidden group"
     >
       {/* Abstract Gradient Mesh/Grain Texture */}
-      <div className="absolute inset-0 bg-grid-white opacity-20 transition-opacity duration-300 group-hover:opacity-30" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background/0 to-transparent opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-noise opacity-[0.03] pointer-events-none mix-blend-overlay z-0" />
+      <div className="absolute inset-0 bg-grid-white opacity-20 transition-opacity duration-300 group-hover:opacity-30 z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background/0 to-transparent opacity-50 group-hover:opacity-80 transition-opacity duration-500 z-0" />
       
       <div className="relative z-10 flex items-center justify-between mb-4">
         <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white group-hover:bg-primary/20 group-hover:text-primary transition-colors duration-300">

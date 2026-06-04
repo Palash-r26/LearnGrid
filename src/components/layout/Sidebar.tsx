@@ -41,7 +41,7 @@ export function Sidebar() {
           width: isCollapsed ? 80 : 256, // 80px = w-20, 256px = w-64
         }}
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col bg-card/50 backdrop-blur-xl border-r border-white/5 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static",
+          "fixed inset-y-0 left-0 z-50 flex flex-col bg-card/50 backdrop-blur-xl border-r border-white/5 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:relative",
           isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64 md:w-auto"
         )}
       >
