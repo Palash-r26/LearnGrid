@@ -66,6 +66,7 @@ export function Sidebar() {
           {/* Desktop Collapse Toggle */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             className="hidden md:flex absolute -right-3 top-6 bg-primary text-white rounded-full p-1 shadow-[0_0_10px_rgba(168,85,247,0.5)] hover:scale-110 transition-transform z-50"
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
