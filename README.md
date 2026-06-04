@@ -65,8 +65,7 @@ This application is built with a strict focus on performance, avoiding layout ja
 - **Zero Layout Shifts (CLS: 0)**: All hover states and entrance animations use hardware-accelerated CSS transforms and opacity via Framer Motion.
 - **Fast Contentful Paint**: Initial data fetching happens instantly on the server via Server Components.
 
-*(Replace the placeholder below with your actual Lighthouse 100/100 screenshot before submitting)*
-![Lighthouse Score Screenshot](https://via.placeholder.com/800x200/18181b/a855f7?text=Drop+Your+100/100+Lighthouse+Screenshot+Here)
+![Lighthouse Score Screenshot](./public/lighthouse.png)
 
 ## Getting Started
 
