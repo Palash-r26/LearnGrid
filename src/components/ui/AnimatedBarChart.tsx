@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useMemo } from "react";
 
 interface DataPoint {
@@ -16,7 +16,7 @@ interface AnimatedBarChartProps {
 export function AnimatedBarChart({ data, height = 250 }: AnimatedBarChartProps) {
   const maxValue = useMemo(() => Math.max(...data.map((d) => d.value), 1), [data]);
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -26,7 +26,7 @@ export function AnimatedBarChart({ data, height = 250 }: AnimatedBarChartProps) 
     },
   };
 
-  const item = {
+  const item: Variants = {
     hidden: { height: 0, opacity: 0 },
     show: (val: number) => ({
       height: `${(val / maxValue) * 100}%`,
